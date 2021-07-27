@@ -11,7 +11,7 @@ type Config struct {
 
 // StandardConfig returns factory-default adress of Nilan heatpump
 func StandardConfig() Config {
-	return Config{NilanAddress: "10.10.10.170:502"}
+	return Config{NilanAddress: "10.10.10.99:502"}
 }
 
 // CurrentConfig reads NILAN_ADDRESS environment variable and returns
