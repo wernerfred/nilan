@@ -125,6 +125,8 @@ const (
 	DeviceTypeGEOReigister Register = 21839
 	// DeviceTypeAIR9Register is ID of register that holds number 9 on AIR9 models
 	DeviceTypeAIR9Register Register = 21899
+	// DeviceTypePPolarRegister is ID of register that holds number 1 on Compact P Polar models
+	DeviceTypePPolarRegister = 21680
 	// T18ReadingRegisterGEO is ID of register holding T18 supply flow temperature reading
 	// on GEO models
 	T18ReadingRegisterGEO Register = 20653
