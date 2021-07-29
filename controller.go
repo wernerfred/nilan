@@ -346,7 +346,8 @@ func (c *Controller) FetchReadings() Readings {
 		ActualHumidity:           actualHumidity,
 		DHWTankTopTemperature:    dhwTopTemperature,
 		DHWTankBottomTemperature: dhwBottomTemperature,
-		SupplyFlowTemperature:    supplyFlowTemperature}
+	//	SupplyFlowTemperature:    supplyFlowTemperature
+	}
 	log.Printf("Readings: %+v\n", readings)
 	return readings
 }
