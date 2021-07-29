@@ -148,7 +148,7 @@ func (c *Controller) supplyFlowSetpointTemperatureRegister() Register {
 
 // FetchSettings of Nilan
 func (c *Controller) FetchSettings() Settings {
-	supplyTemperatureRegister := c.supplyFlowSetpointTemperatureRegister()
+	//supplyTemperatureRegister := c.supplyFlowSetpointTemperatureRegister()
 
 	client1Registers := []Register{
 		FanSpeedRegister,
@@ -158,14 +158,14 @@ func (c *Controller) FetchSettings() Settings {
 		DHWPauseDurationRegister,
 		VentilationModeRegister,
 		VentilationPauseRegister}
-	client4Registers := []Register{
-		CentralHeatingPauseRegister,
-		CentralHeatingPauseDurationRegister,
-		CentralHeatingPowerRegister,
-		supplyTemperatureRegister}
+	//client4Registers := []Register{
+	//	CentralHeatingPauseRegister,
+	//	CentralHeatingPauseDurationRegister,
+	//	CentralHeatingPowerRegister,
+	//	supplyTemperatureRegister}
 
 	client1RegisterValues := c.FetchRegisterValues(1, client1Registers)
-	client4RegisterValues := c.FetchRegisterValues(4, client4Registers)
+	//client4RegisterValues := c.FetchRegisterValues(4, client4Registers)
 
 	fanSpeed := new(FanSpeed)
 	*fanSpeed = FanSpeed(client1RegisterValues[FanSpeedRegister])
@@ -185,11 +185,11 @@ func (c *Controller) FetchSettings() Settings {
 	centralHeatingPaused := new(bool)
 	*centralHeatingPaused = client4RegisterValues[CentralHeatingPauseRegister] == 1
 
-	centralHeatingPauseDuration := new(int)
-	*centralHeatingPauseDuration = int(client4RegisterValues[CentralHeatingPauseDurationRegister])
+	//centralHeatingPauseDuration := new(int)
+	//*centralHeatingPauseDuration = int(client4RegisterValues[CentralHeatingPauseDurationRegister])
 
-	centralHeatingOn := new(bool)
-	*centralHeatingOn = client4RegisterValues[CentralHeatingPowerRegister] == 1
+	//centralHeatingOn := new(bool)
+	//*centralHeatingOn = client4RegisterValues[CentralHeatingPowerRegister] == 1
 
 	ventilationMode := new(int)
 	*ventilationMode = int(client1RegisterValues[VentilationModeRegister])
@@ -197,8 +197,8 @@ func (c *Controller) FetchSettings() Settings {
 	ventilationPause := new(bool)
 	*ventilationPause = client1RegisterValues[VentilationPauseRegister] == 1
 
-	setpointTemperature := new(int)
-	*setpointTemperature = int(client4RegisterValues[supplyTemperatureRegister])
+	//setpointTemperature := new(int)
+	//*setpointTemperature = int(client4RegisterValues[supplyTemperatureRegister])
 
 	settings := Settings{FanSpeed: fanSpeed,
 		DesiredRoomTemperature:      desiredRoomTemperature,
@@ -222,7 +222,7 @@ func (c *Controller) SendSettings(settings Settings) {
 	settingsStr := spew.Sprintf("%+v", settings)
 	log.Printf("Sending new settings to Nialn (<nil> values will be ignored): %+v\n", settingsStr)
 	client1RegisterValues := make(map[Register]uint16)
-	client4RegisterValues := make(map[Register]uint16)
+	//client4RegisterValues := make(map[Register]uint16)
 
 	if settings.FanSpeed != nil {
 		fanSpeed := uint16(*settings.FanSpeed)
@@ -252,18 +252,18 @@ func (c *Controller) SendSettings(settings Settings) {
 		client1RegisterValues[DHWPauseDurationRegister] = pauseDuration
 	}
 
-	if settings.CentralHeatingPaused != nil {
-		if *settings.CentralHeatingPaused {
-			client4RegisterValues[CentralHeatingPauseRegister] = uint16(1)
-		} else {
-			client4RegisterValues[CentralHeatingPauseRegister] = uint16(0)
-		}
-	}
+	//if settings.CentralHeatingPaused != nil {
+	//	if *settings.CentralHeatingPaused {
+	//		client4RegisterValues[CentralHeatingPauseRegister] = uint16(1)
+	//	} else {
+	//		client4RegisterValues[CentralHeatingPauseRegister] = uint16(0)
+	//	}
+	//}
 
-	if settings.CentralHeatingPauseDuration != nil {
-		pauseDuration := uint16(*settings.CentralHeatingPauseDuration)
-		client4RegisterValues[CentralHeatingPauseDurationRegister] = pauseDuration
-	}
+	//if settings.CentralHeatingPauseDuration != nil {
+	//	pauseDuration := uint16(*settings.CentralHeatingPauseDuration)
+	//	client4RegisterValues[CentralHeatingPauseDurationRegister] = pauseDuration
+	//}
 
 	if settings.VentilationMode != nil {
 		ventilationMode := *settings.VentilationMode
@@ -283,14 +283,14 @@ func (c *Controller) SendSettings(settings Settings) {
 		}
 	}
 
-	if settings.SetpointSupplyTemperature != nil {
-		setpointTempeature := uint16(*settings.SetpointSupplyTemperature)
-		client4RegisterValues[SetpointSupplyTemperatureRegisterAIR9] = setpointTempeature
-		client4RegisterValues[SetpointSupplyTemperatureRegisterGEO] = setpointTempeature
-	}
+	//if settings.SetpointSupplyTemperature != nil {
+	//	setpointTempeature := uint16(*settings.SetpointSupplyTemperature)
+	//	client4RegisterValues[SetpointSupplyTemperatureRegisterAIR9] = setpointTempeature
+	//	client4RegisterValues[SetpointSupplyTemperatureRegisterGEO] = setpointTempeature
+	//}
 
 	c.SetRegisterValues(1, client1RegisterValues)
-	c.SetRegisterValues(4, client4RegisterValues)
+	//c.SetRegisterValues(4, client4RegisterValues)
 }
 
 func (c *Controller) roomTemperatureRegister() Register {
