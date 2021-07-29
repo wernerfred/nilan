@@ -303,6 +303,8 @@ func (c *Controller) roomTemperatureRegister() Register {
 
 func (c *Controller) t18ReadingRegister() Register {
 	switch {
+	case c.FetchValue(1, DeviceTypePPolarRegister) == 1:
+	        return DeviceTypePPolarRegister	
 	case c.FetchValue(4, DeviceTypeGEOReigister) == 8:
 		return T18ReadingRegisterGEO
 	case c.FetchValue(4, DeviceTypeAIR9Register) == 9:
@@ -315,7 +317,7 @@ func (c *Controller) t18ReadingRegister() Register {
 // FetchReadings of Nilan sensors
 func (c *Controller) FetchReadings() Readings {
 	roomTemperatureRegister := c.roomTemperatureRegister()
-	t18Register := c.t18ReadingRegister()
+	//t18Register := c.t18ReadingRegister()
 
 	client1Registers := []Register{roomTemperatureRegister,
 		OutdoorTemperatureRegister,
@@ -324,10 +326,10 @@ func (c *Controller) FetchReadings() Readings {
 		DHWTopTankTemperatureRegister,
 		DHWBottomTankTemperatureRegister}
 
-	client4Registers := []Register{t18Register}
+	//client4Registers := []Register{t18Register}
 
 	client1ReadingsRaw := c.FetchRegisterValues(1, client1Registers)
-	client4ReadingsRaw := c.FetchRegisterValues(4, client4Registers)
+	//client4ReadingsRaw := c.FetchRegisterValues(4, client4Registers)
 
 	roomTemperature := int(client1ReadingsRaw[roomTemperatureRegister])
 	outdoorTemperature := int(client1ReadingsRaw[OutdoorTemperatureRegister])
@@ -335,7 +337,7 @@ func (c *Controller) FetchReadings() Readings {
 	actualHumidity := int(client1ReadingsRaw[ActualHumidityRegister])
 	dhwTopTemperature := int(client1ReadingsRaw[DHWTopTankTemperatureRegister])
 	dhwBottomTemperature := int(client1ReadingsRaw[DHWBottomTankTemperatureRegister])
-	supplyFlowTemperature := int(client4ReadingsRaw[t18Register])
+	//supplyFlowTemperature := int(client4ReadingsRaw[t18Register])
 
 	readings := Readings{
 		RoomTemperature:          roomTemperature,
